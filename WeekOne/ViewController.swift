@@ -19,10 +19,9 @@ class ViewController: UIViewController {
 
     @IBAction func showButtonPressed(_ sender: UIButton) {
         let messages = ["You are awesome!", "You are great!", "You are fantastic!", "When the Genius Bar needs help, they call you", "You brighten my day!", "You are da bomb!", "Hey, fabulous!", "You are tremendous!", "You've got the design skills of Jony Ive!", "I can't wait to download you app!"]
-        var newIndex = -1
+        var newIndex: Int
         repeat{
             newIndex = Int.random(in: 0..<messages.count)
-            
         } while index==newIndex
         index = newIndex
         messageLabel.text = messages[index]
