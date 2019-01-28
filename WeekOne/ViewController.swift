@@ -22,42 +22,44 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-
-    @IBAction func showButtonPressed(_ sender: UIButton) {
-        let messages = ["You are awesome!", "You are great!", "You are fantastic!", "When the Genius Bar needs help, they call you", "You brighten my day!", "You are da bomb!", "Hey, fabulous!", "You are tremendous!", "You've got the design skills of Jony Ive!", "I can't wait to download you app!"]
-        //show message
+    
+    func nonRepeatingrandom(lastNumber: Int, maxValue: Int) -> Int {
         var newIndex: Int
         repeat{
-            newIndex = Int.random(in: 0..<messages.count)
-        } while index==newIndex
-        
-        index = newIndex
-        messageLabel.text = messages[index]
-        
-        //show image
-        repeat{
-            newIndex = Int.random(in: 0..<numberOfImages)
-        }while imageIndex == newIndex
-        
-        imageIndex = newIndex
-        awesomeimageView.image = UIImage(named: "image\(imageIndex)")
-        
-        //play sound
-        repeat{
-            newIndex = Int.random(in: 0..<numberOfSounds)
-        }while soundIndex == newIndex
-        
-        soundIndex = newIndex
-        var soundName = "sound\(soundIndex)"
+            newIndex = Int.random(in: 0..<maxValue)
+        } while lastNumber==newIndex
+        return newIndex
+    }
+    
+    func playSound(soundName: String, audioPlayer: inout AVAudioPlayer) {
+        //var soundName = "sound\(soundIndex)"
         if let sound = NSDataAsset(name: soundName){
             do{
-                try awesomePlayer = AVAudioPlayer(data: sound.data)
+                try audioPlayer = AVAudioPlayer(data: sound.data)
+                audioPlayer.play()
             } catch{
                 print("error: file \(soundName) couldn't be played as a sound.")
             }
         } else{
-            print("error: file \(soundName) couldn't be played as a sound.")
+            print("error: file \(soundName) didn't load.")
         }
+    }
+
+    @IBAction func showButtonPressed(_ sender: UIButton) {
+        let messages = ["You are awesome!", "You are great!", "You are fantastic!", "When the Genius Bar needs help, they call you", "You brighten my day!", "You are da bomb!", "Hey, fabulous!", "You are tremendous!", "You've got the design skills of Jony Ive!", "I can't wait to download you app!"]
+        //show message
+        index = nonRepeatingrandom(lastNumber: index, maxValue: messages.count)
+        messageLabel.text = messages[index]
+        
+        //show image
+        imageIndex = nonRepeatingrandom(lastNumber: imageIndex, maxValue: numberOfImages)
+        awesomeimageView.image = UIImage(named: "image\(imageIndex)")
+        
+        //play sound
+        soundIndex = nonRepeatingrandom(lastNumber: soundIndex, maxValue: numberOfSounds)
+        
+        let soundName = "sound\(soundIndex)"
+        playSound(soundName: soundName, audioPlayer: &awesomePlayer)
     }
 }
   
